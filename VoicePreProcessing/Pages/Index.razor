@@ -1,0 +1,115 @@
+﻿@page "/"
+@inject IJSRuntime JSRuntime
+@inject IVoiceService voiceservice
+<div class="row"> 
+    <div class="col-md-12">
+        <div class="form-group">
+            <div id="controls">
+                <button @onclick="StartRecording" type="button" disabled="@isRecording" class="btn btn-success m-4" id="recordButton">Record</button>
+                <button @onclick="PauseRecording" type="button" disabled="@(!isRecording)" class="btn btn-warning m-4" id="pauseButton">@pausename</button>
+                <button @onclick="StopRecording" type="button" disabled="@(!isRecording)" class="btn btn-danger m-4" id="stopButton">Stop</button>
+                <main id="main">
+
+                </main>
+            </div>
+            <div>
+                timer:<span id="timer">00:00</span>
+            </div>
+            <div id="formats">کیفیت خروجی:</div>
+            <ol id="recordingsList"></ol>
+            <input type="hidden" name="recordVoice" />
+            <EditForm Model="voiceInfo" OnValidSubmit="SubmitForm">
+                <div>
+                    <InputFile id="voiceFile" OnChange="HandleFileSelection" accept=".wav" class="d-none" />
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@if (exception != null)
+{
+    <div>
+        Exeption Message : @exception.Message
+    </div>
+    <div>
+        InnerException : @exception.InnerException
+    </div>
+}
+
+
+
+@code {
+    private Voiceinfo voiceInfo = new();
+
+    private bool isRecording = false;
+    private Exception exception = null;
+    private string pausename = "Pause";
+    private bool isPause = false;
+
+    private async Task StartRecording()
+    {
+        await JSRuntime.InvokeVoidAsync("startRecording");
+
+        isRecording = true;
+        StateHasChanged();
+    }
+
+    private async Task StopRecording()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("stopRecording");
+
+            isRecording = false;
+            //await JSRuntime.InvokeVoidAsync("eval", $"");
+            StateHasChanged();
+
+        }
+        catch (Exception ex)
+        {
+            exception = ex;
+            StateHasChanged();
+        }
+    }
+
+    private async Task PauseRecording()
+    {
+        await JSRuntime.InvokeVoidAsync("pauseRecording");
+
+        isPause = !isPause;
+
+        if (isPause)
+        {
+            pausename = "Continue";
+        }
+        else
+        {
+            pausename = "Pause";
+        }
+        StateHasChanged();
+
+    }
+
+    private void HandleFileSelection(InputFileChangeEventArgs e)
+    {
+        voiceInfo.VoiceFile = e.File;
+    }
+
+    private async Task SubmitForm()
+    {
+        try
+        {
+            var result = await voiceservice.Upload(voiceInfo);
+        }
+        catch(Exception ex)
+        {
+            exception = ex;
+        }
+    }
+
+}
