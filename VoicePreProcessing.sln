@@ -6,6 +6,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoicePreProcessing", "Voice
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{3325BD85-4CDC-49CA-BAA2-174D4ACA3754}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{AF2CC2BF-2326-408A-9DF2-B84D5BD6C09E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,12 +24,16 @@ Global
 		{3325BD85-4CDC-49CA-BAA2-174D4ACA3754}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3325BD85-4CDC-49CA-BAA2-174D4ACA3754}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3325BD85-4CDC-49CA-BAA2-174D4ACA3754}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF2CC2BF-2326-408A-9DF2-B84D5BD6C09E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF2CC2BF-2326-408A-9DF2-B84D5BD6C09E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF2CC2BF-2326-408A-9DF2-B84D5BD6C09E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF2CC2BF-2326-408A-9DF2-B84D5BD6C09E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FAB07DC9-9BBF-46FA-B8FF-98D08811B032}
 		        SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
+		SolutionGuid = {FAB07DC9-9BBF-46FA-B8FF-98D08811B032}
 	EndGlobalSection
 EndGlobal

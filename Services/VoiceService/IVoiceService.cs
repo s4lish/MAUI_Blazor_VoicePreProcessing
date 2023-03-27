@@ -5,5 +5,7 @@ namespace Services.VoiceService
     public interface IVoiceService
     {
         Task<bool> Upload(Voiceinfo voiceinfo);
+
+        Task CreateTables();
     }
 }

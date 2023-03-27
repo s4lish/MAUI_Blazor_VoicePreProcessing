@@ -8,6 +8,7 @@ namespace VoicePreProcessing.Shared
         private string toastTitle;
         private string toastMessage;
         private string toastClass;
+        private ToastType toastType;
         private string toastTime;
         private bool openToast = false;
         private int second = 4;
@@ -34,12 +35,12 @@ namespace VoicePreProcessing.Shared
         }
 
         [Parameter]
-        public string ToastClass
+        public ToastType ToastClass
         {
-            get { return toastClass; }
+            get { return toastType; }
             set
             {
-                toastClass = value;
+                toastClass = GetToastClass(value);
                 StateHasChanged();
             }
         }

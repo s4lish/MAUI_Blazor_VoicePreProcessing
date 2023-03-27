@@ -6,5 +6,6 @@ namespace Services.DTO
     {
         public string? Title { get; set; }
         public IBrowserFile? VoiceFile { get; set; }
+
     }
 }

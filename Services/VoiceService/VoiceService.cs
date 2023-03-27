@@ -1,9 +1,24 @@
-﻿using Services.DTO;
+﻿using Entities;
+using Services.DTO;
+using SQLite;
 
 namespace Services.VoiceService
 {
     public class VoiceService : IVoiceService
     {
+        SQLiteAsyncConnection Connection;
+        private string fileName = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"/VoiceRecords.db";
+
+        public VoiceService()
+        {
+            Connection = new SQLiteAsyncConnection(fileName);
+        }
+
+        public async Task CreateTables()
+        {
+            await Connection.CreateTableAsync<VoiceInformation>();
+        }
+
         public async Task<bool> Upload(Voiceinfo voiceinfo)
         {
             if (voiceinfo.VoiceFile is null)
@@ -13,6 +28,8 @@ namespace Services.VoiceService
 
             try
             {
+                await CreateTables();
+
                 string neFileName = Path.ChangeExtension(
                     Guid.NewGuid().ToString(),
                     Path.GetExtension(voiceinfo.VoiceFile.Name)
@@ -33,6 +50,13 @@ namespace Services.VoiceService
 
                 await using FileStream fs = new(path, FileMode.Create);
                 await voiceinfo.VoiceFile.OpenReadStream(maxAllowedSize: long.MaxValue).CopyToAsync(fs);
+
+                VoiceInformation voiceInformation = new VoiceInformation
+                {
+                    VoiceFile = relativePath
+                };
+
+                var rowAdd = await Connection.InsertAsync(voiceInformation);
 
                 return true;
 

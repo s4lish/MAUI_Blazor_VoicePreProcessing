@@ -41,11 +41,14 @@
     </div>
 }
 
-<ShowToast ToastTitle="Success" ToastMessage="Voice Uplaod Successfully" OpenToast="@OpenToast" CloseToast="()=>OpenToast = false" ></ShowToast>
+<ShowToast ToastTitle="@ToastTitle" ToastMessage="@ToastMessage" ToastClass="@ToastClass" OpenToast="@OpenToast" CloseToast="()=>OpenToast = false"></ShowToast>
 
 @code {
     private Voiceinfo voiceInfo = new();
 
+    private string ToastTitle;
+    private string ToastMessage;
+    private ToastType ToastClass;
     private bool isRecording = false;
     private Exception exception = null;
     private string pausename = "Pause";
@@ -107,9 +110,20 @@
         {
             var result = await voiceservice.Upload(voiceInfo);
 
+            OpenToast = true;
+
             if (result)
             {
-                OpenToast = true;
+                ToastTitle = "ُSuccess";
+                ToastMessage = "Voice Upload Successfull";
+                ToastClass = ToastType.Success;
+                voiceInfo = new();
+            }
+            else
+            {
+                ToastTitle = "Error";
+                ToastMessage ="Error To Upload Voice";
+                ToastClass = ToastType.Error;
             }
 
             StateHasChanged();
