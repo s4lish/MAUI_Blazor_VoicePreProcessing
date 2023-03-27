@@ -41,7 +41,7 @@
     </div>
 }
 
-
+<ShowToast ToastTitle="Success" ToastMessage="Voice Uplaod Successfully" OpenToast="@OpenToast" CloseToast="()=>OpenToast = false" ></ShowToast>
 
 @code {
     private Voiceinfo voiceInfo = new();
@@ -50,6 +50,7 @@
     private Exception exception = null;
     private string pausename = "Pause";
     private bool isPause = false;
+    private bool OpenToast = false;
 
     private async Task StartRecording()
     {
@@ -105,6 +106,13 @@
         try
         {
             var result = await voiceservice.Upload(voiceInfo);
+
+            if (result)
+            {
+                OpenToast = true;
+            }
+
+            StateHasChanged();
         }
         catch(Exception ex)
         {
